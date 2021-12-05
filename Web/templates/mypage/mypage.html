@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript"src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+	$("#allCheck").click(function(){
+		var check = document.querySelectorAll(".check");
+		console.log(check.length);
+		for(var i = 0; i < check.length; ++i){
+			check[i].checked = this.checked;	
+		}
+	});
+	
+	$(".delBtn").click(function(){
+		console.log("update");
+		var image = $(this).attr('data-xxx');
+		console.log($(this).data('xxx'));
+		
+		location.href="mypage?delete=" + image;
+	});
+	
+	$("#dltChecked").click(function(){
+		var delCheck = [];
+		$(".check:checked").each(function(){
+			delCheck.push($(this).val());
+		});
+		location.href="mypage?delete=" + delCheck
+	});
+
+});
+</script>
+<style>
+	div.mypage{
+		position: relative;
+		text-align: center;
+		margin-top: 40px;
+		width: 100%;
+		height: 600px;
+	}
+	div.mypageform{
+		position: absolute;
+		left: 15%;
+		text-align: left;
+	}
+	input{
+		width: 350px;
+		height: 40px;
+		font-size: 20px;
+	}
+	select{
+		width:70px;
+		height: 45px;
+		font-size: 20px;
+	}
+	button.sign{
+		font-size: 20px;
+		width: 350px;
+		background-color: #add8e6;
+	}
+	button.reset{
+		font-size: 20px;
+		width: 350px;
+	}
+	
+	div.myfiles{
+		position: absolute;
+		left: 53%;
+		text-align: left;
+		border: 3px solid;
+		height: 600px;
+		width:  500px;
+	}
+	div.filelist{
+		position: absolute;
+		left: 10px;
+		top: 10px;
+	}
+</style>
+
+</head>
+<body>
+<div class="mypage">
+	<div class="mypageform">
+	
+		<form action="updatemember" onsubmit="return formSubmit()" method="post">{% csrf_token %}
+		아이디 : {{ userid }}
+		<input type="hidden" name="userid" id="userid" value="{{userid}}"><span style="color: red;">{{msg}}</span><br><br>
+		새로운 비밀번호<br>
+		<input type="password" name="passwd" id="passwd"><br><br>
+		비밀번호 확인<br>
+		<input type="password" id="passwd2"><br><br>
+		이름<br>
+		<input type="text" name="username" id="username" placeholder="{{ username }}"><br><br>
+		<div class="bday">
+			생년월일<br>
+			<input type="text" id="yy" name="yy" placeholder="년(4자)" aria-label="년(4자)" class="int" maxlength="4" style="width: 140px;">
+			<select id="mm" name="mm" class="sel" aria-label="월">
+				<option value="">월</option>
+	 			<option value="01">1</option>
+	 			<option value="02">2</option>
+	 			<option value="03">3</option>
+	 			<option value="04">4</option>
+	 			<option value="05">5</option>
+	 			<option value="06">6</option>
+	 			<option value="07">7</option>
+	 			<option value="08">8</option>
+	 			<option value="09">9</option>
+	 			<option value="10">10</option>
+	 			<option value="11">11</option>
+	 			<option value="12">12</option>
+			</select>
+			<input type="text" id="dd" name="dd" placeholder="일" aria-label="일" class="int" maxlength="2" style="width: 120px;"><br><br>
+		</div>
+		성별<br>
+		<select id="gender" name="gender" class="sel" aria-label="성별" style="width: 350px;">
+			<option value="" selected>성별</option>
+         	<option value="M">남자</option>
+         	<option value="F">여자</option>
+			<option value="U">선택 안함</option>
+		</select><br><br>
+		
+		<button type="submit" class="sign">수정</button><br>
+		<button type="reset" class="reset">취소</button>
+		</form>
+	</div>
+	<div class="myfiles">
+		<div class="filelist">
+			<strong style="font-size: 25px;">{{ username }}님의 파일들</strong><br><br><br>
+			<input type="checkbox" id="allCheck" style="height: 20px; width: 20px; vertical-align: middle;">
+			<strong style="font-size: 20px; line-height: 20px; vertical-align: middle;">전체선택</strong>
+			<hr>
+			<br>
+			{% if graph.count == 0 %}
+			<span style="font-size: 30px; color: gray; text-align: center;">저장된 파일 없음</span>
+			{% else %}
+			<table style="width: 450px; text-align: left;">
+				{% for g in graph.all %}
+				<tr>
+					<td><input type="checkbox" id="check" class="check" value="{{g.image}}" style="height: 20px; width: 20px; vertical-align: middle;"></td>
+					<td style="font-size: 20px;"><a href="viewImage?image={{g.image}}"> {{g.image}}</a></td>
+					<td><input type="button" class="delBtn" style="width: 100px; height: 28px; font-size: 15px;" value="삭제" data-xxx="{{g.image}}"></td>
+				</tr>
+				{% endfor %}
+				<tr style="height: 20px;"></tr>
+				<tr><td colspan="4"><button id="dltChecked" style="width: 200px; height: 40px; font-size: 20px;">선택 삭제</button></td></tr>
+			</table>
+			{% endif %}
+		</div>
+	</div>
+</div>
+</body>
+</html>

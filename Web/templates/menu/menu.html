@@ -1,0 +1,112 @@
+<style>
+	body{
+		margin-left: 50px;
+		margin-right: 50px;
+	}
+	.main{
+		position: relative;
+		height: 25px;
+		width: 100%;
+		line-height: 20px;
+		vertical-align: middle;
+	}
+	button{
+		font-size: 13px;
+		padding: 3px 8px;
+		border-radius: 5px;
+		background-color: white;
+		transition-duration: 0.5s;
+		border: 2px medium black;
+	}
+	
+	div.shortcut{
+		position: absolute;
+		right: 50px;
+		top: 137px;
+		/* border: 1px solid; */
+		width: 200px;
+		height: 40px;
+		vertical-align: middle;
+		text-align: center;
+		line-height: 40px;	
+	}
+	
+	#shortcut{
+		font-size: 20px;
+		background: transparent;
+		border: 2px solid;
+		border-color: #004D6C;
+	}
+	
+	.shortcut option {
+	 	background: #004D6C;
+	 	color: #fff;
+	 	padding: 3px 0;
+	 	font-size: 16px
+	}
+</style>
+<script type="text/javascript">
+	
+	function logout(){
+		location.href = "/logout";
+	}
+	function mypage(){
+		location.href= "/mypage"
+	}
+	function login(){
+		location.href= "/login"
+	}
+	function signup(){
+		location.href= "/signup"
+	}
+	function main(){
+		location.href= "/"
+	}
+	function back(){
+		window.history.back();
+	}
+	
+	function shortcut(){
+		var select = document.getElementById("shortcut");
+		var value = select.options[select.selectedIndex].value;
+		console.log(value);
+		if(value == 'map'){
+			location.href="main1";
+		}
+		else if(value == 'analysis'){
+			location.href="main2";
+		}
+		else if(value == 'lifestyle'){
+			location.href="lifestyle";
+		}
+	}
+</script>
+
+<div class="main">
+&nbsp;&nbsp;
+	{% if request.session.userid %} <!-- 로그인 세션이 활성화 되었을 경우 -->
+	{{request.session.username}} 회원님, 환영합니다!&nbsp;&nbsp;
+		<button id="logout" onclick="logout()">로그아웃</button>&nbsp;
+<!-- 		<a href="/logout">로그아웃</a>&nbsp;-->
+		<button id="mypage" onclick="mypage()">마이페이지</button>&nbsp;
+		<!-- <a href="/mypage">마이페이지</a>&nbsp; -->
+	{% else %} <!-- 로그인이 안 되었을 경우 -->
+		<button id="login" onclick="login()">로그인</button>&nbsp;
+		<!--<a href="login">로그인</a>&nbsp;-->
+		<button id="signup" onclick="signup()">회원가입</button>&nbsp;
+		<!--<a href="signup">회원가입</a>&nbsp;-->
+	{% endif %}
+		<button id="main" onclick="main()">메인으로</button>&nbsp;
+		<!--<a href="/">메인으로</a>-->
+		<button id="back" onclick="back()">뒤로</button>&nbsp;
+		<!--<a onclick="back()">뒤로</a>-->
+</div>
+<div class="shortcut">
+	<select id="shortcut" class="shortcut" onchange="shortcut()">
+		<option disabled selected>빠른 이동</option>
+		<option value="map">전국 코로나 현황</option>
+		<option value="analysis">상관관계 분석</option>
+		<option value="lifestyle">생활패턴 변화</option>
+	</select>
+</div>
+<hr>

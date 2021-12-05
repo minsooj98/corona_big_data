@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>데이터분석</title>
+<script type="text/javascript"src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="../../static/js/html2canvas.js"></script>
+<script type="text/javascript">
+function formSubmit() {
+	var result = true;
+	var v1 = document.getElementById("v1").value;
+	var v2 = document.getElementById("v2").value;
+	if(v1 == "" && v2 == ""){//독립변수 미 입력 시
+ 		alert('독립변수를 1개 이상 정해주세요')
+		result = false;}
+	if(v1 != "" && v2 != "" && v1 == v2){
+		alert('독립변수를 다르게 정해주세요')
+		result = false;
+	}
+	return result;
+}
+
+function downImg(){
+	html2canvas(document.querySelector("#plot")).then(function(canvas){
+    	var myImage = canvas.toDataURL();
+		var name = $("#name").val();
+		downloadURI(myImage, name + ".png");
+		location.href="save?name=" + name;
+	});
+}
+
+function downloadURI(uri, name){
+	var link = document.createElement("a")
+	link.download = name;
+	link.href = uri;
+	document.body.appendChild(link);
+	link.click();
+}
+</script>
+<style>
+	body.frame{
+		position: relative;
+	}
+	div.select{
+		position: relative;
+		height: 400px;
+		left: 100px;
+		top: 50px;
+	}
+	form{
+		border-style: double;
+		width: 300px;
+		padding: 20px;	
+		
+	}
+	#analyze{
+		background-color: #99A9F0;
+		font-size: 16px;
+		width: 110px;
+	}
+	#reset{
+		background-color: #F6712E;
+		font-size: 16px;
+		width: 110px;
+	}
+	
+	div.graph{
+		position: absolute;
+		height: 430px;
+		width: 550px;
+		border: 1px solid;
+		left: 600px;
+		top: 210px;
+	}
+	
+	#plot{
+		height: 430px;
+		width: 550px;
+	}
+	#save_frame{
+		position: absolute;
+		top: 230px;
+		right: 70px;
+	}
+	#save{
+		height: 50px;
+		width: 100px;
+		background-color: #FF9B0B;
+		font-weight: 900;
+	}
+	div.analysis{
+		position: relative;
+		border: 1px solid;
+		border-radius: 10px;
+		width: 450px;
+		left: 50px;
+		top: -35px;
+	}
+</style>
+</head>
+<body class="">
+<div class="select">
+	<form action="analysis" onsubmit="return formSubmit()" method="post">{% csrf_token %}
+		<table style="border-spacing: 15px;">
+			<tr>
+				<td style="color: #273A89">독립변수1:</td>
+				<td>	
+					<select id="v1" name="v1" class="sel" aria-label="변수1">
+						<option value="">변수1</option>
+			 			<option value="level">강남역 일일 이용객수</option>
+			 			<option value="vaccination">백신접종률(누적인구)</option>
+			 			<option value="abroad">해외 유입 확진자(당일)</option>
+			 			<option value="check">검사자수(당일)</option>
+			 			<option value="dead">사망자수(당일)</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="color: #273A89">독립변수2:</td>
+				<td>
+					<select id="v2" name="v2" class="sel" aria-label="변수2">
+						<option value="">변수2</option>
+			 			<option value="level">강남역 일일 이용객수</option>
+			 			<option value="vaccination">백신접종률(누적인구)</option>
+			 			<option value="abroad">해외 유입 확진자(당일)</option>
+			 			<option value="check">검사자수(당일)</option>
+			 			<option value="dead">사망자수(당일)</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td style="color: #273A89">분석방법:</td>
+				<td>
+					<select id="v3" name="v3" class="sel" aria-label="분석방법">
+			 			<option value="ols">전통적(ols)</option>
+			 			<option value="tensorflow">tensorflow</option>
+					</select>
+				</td>
+			</tr>
+ 			<tr>
+				<td style="color: #2F46A7"><b>종속변수:</b></td>
+				<td>
+			 		확진자 증가 추세
+				</td>
+			</tr>
+			<tr style="height: 10px;"></tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<button id="analyze" type="submit">분석</button>&nbsp;&nbsp;
+					<button id="reset" type="reset">취소</button>
+				</td>
+			</tr>
+		</table>
+	</form><br>
+</div>
+
+<div class="graph">
+	{% if fig %}
+		<img id="plot" src = "/static/graphs/analysis.png"> <!-- 이미지로 저장된 그래프를 출력. -->
+	{% endif %}
+</div>
+	{% if request.session.userid %} <!-- 로그인 세션이 활성화 되었을 경우 -->
+<div id="save_frame">
+	<input type="text" id="name" placeholder="이미지 이름" style="width: 100px;"><br><br>
+	<button id="save" onclick="downImg()">이미지 저장</button>
+</div>
+	{% endif %}
+<div class="analysis" style="text-align: center;">
+	<span>{{msg.msg1}}</span> <br>
+	<span>{{msg.msg2}}</span> <br>
+	<span>{{msg.msg3}}</span> <br>
+	<span>{{msg2}}</span>
+</div>
+
+</body>
+</html>

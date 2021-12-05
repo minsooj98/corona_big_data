@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div.city{
+		border: 1px solid;
+		width: 100%;
+		height: 600px;
+		position: relative;
+	}
+	#img{
+		text-align: center;
+		position: absolute;
+		width: 600px;
+		height: 550px;
+		left: 10%;
+		top: 30px;
+	}
+	#options{
+		position: absolute;
+		top: 180px;
+		right: 130px;
+	}
+	li{
+		margin: 10px;
+	}
+</style>
+
+</head>
+<body>
+<div class="city">
+	<span id="img">
+		<img src="../../static/images/seoul.png">
+	</span>
+	<span id="options">
+		<ul style="list-style-type:none; ">
+			<li>
+				<input type="radio" name="option" id="guideline">해당 지역 방역지침</button>
+			</li>
+			<li>
+				<input type="radio" name="option" id="triage">선별 진료소 현황</button>
+			</li>
+			<li>
+				<input type="radio" name="option" id="residual">잔여백신</button>
+			</li>
+			<li>
+				<input type="radio" name="option" id="hospital">입원 및 외래가능한 병원</button>
+			</li>
+			<li>
+				<input type="radio" name="option" id="residual_transport">승차검진 선별 진료소</button>
+			</li>
+		</ul>
+	</span>
+</div>
+</body>
+</html>

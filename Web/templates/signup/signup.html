@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<script type="text/javascript">
+function formSubmit() {
+	var result = true;//기본 리절트 값.
+    var str = "";
+	var userid = document.getElementById("userid").value;
+	var passwd = document.getElementById("passwd").value;
+	var passwd2 = document.getElementById("passwd2").value;
+	var username = document.getElementById("username").value;
+  	var birth = document.getElementById("yy").value + document.getElementById("mm").value + document.getElementById("dd").value;
+  	console.log(birth);
+  	var birthyy = document.getElementById("yy").value;
+  	var birthmm = document.getElementById("mm").value;
+  	var birthdd = document.getElementById("dd").value;
+  	var gender = document.getElementById("gender").value;
+  if(userid.length == 0){//아이디 미 입력시
+ 	 alert('아이디를 입력하세요')
+ 	 result = false;
+  }else if (passwd.length==0) {//패스워드 미입력시
+	 	 alert('비밀번호를 입력하세요')
+	 	 result = false;
+  }else if (passwd2 != passwd) {//패스워드 미일치 시
+	 	 alert('비밀번호가 일치하지 않습니다.')
+	 	 result = false;
+  }
+  else if (username.length==0) {//이름 미입력시
+	 	 alert('이름을 입력하세요')
+	 	 result = false;
+  }
+  else if (birthyy.length==0) {//생년 미입력시
+		 alert('생년을 입력하세요')
+	 	 result = false;
+	}else if (birthmm.length==0) {//생월 미입력시
+		 alert('생월을 입력하세요')
+	 	 result = false;
+	}else if (birthdd.length==0) {//생일 미입력시
+		 alert('생일을 입력하세요')
+	 	 result = false;
+	}else if (gender.length==0) {//성별 미입력시
+		 alert('성별을 입력하세요')
+	 	 result = false;
+	}
+  return result;
+}
+</script>
+
+<style>
+	div.signup{
+		position: relative;
+		text-align: center;
+		margin-top: 40px;
+		width: 100%;
+		height: 600px;
+	}
+	div.signupform{
+		position: absolute;
+		left: 35%;
+		text-align: left;
+	}
+	input{
+		width: 350px;
+		height: 40px;
+		font-size: 20px;
+	}
+	select{
+		width:70px;
+		height: 45px;
+		font-size: 20px;
+	}
+	button.sign{
+		font-size: 20px;
+		width: 350px;
+		background-color: #add8e6;
+	}
+	button.reset{
+		font-size: 20px;
+		width: 350px;
+	}
+</style>
+</head>
+<body>
+<div class="signup">
+	<div class="signupform">
+	
+		<form action="insertmember" onsubmit="return formSubmit()" method="post">{% csrf_token %}
+		아이디<br>
+		<input type="text" name="userid" id="userid"><span style="color: red;">{{msg}}</span><br><br>
+		비밀번호<br>
+		<input type="password" name="passwd" id="passwd"><br><br>
+		비밀번호확인<br>
+		<input type="password" id="passwd2"><br><br>
+		이름<br>
+		<input type="text" name="username" id="username"><br><br>
+		<div class="bday">
+			생년월일<br>
+			<input type="text" id="yy" name="yy" placeholder="년(4자)" aria-label="년(4자)" class="int" maxlength="4" style="width: 140px;">
+			<select id="mm" name="mm" class="sel" aria-label="월">
+				<option value="">월</option>
+	 			<option value="01">1</option>
+	 			<option value="02">2</option>
+	 			<option value="03">3</option>
+	 			<option value="04">4</option>
+	 			<option value="05">5</option>
+	 			<option value="06">6</option>
+	 			<option value="07">7</option>
+	 			<option value="08">8</option>
+	 			<option value="09">9</option>
+	 			<option value="10">10</option>
+	 			<option value="11">11</option>
+	 			<option value="12">12</option>
+			</select>
+			<input type="text" id="dd" name="dd" placeholder="일" aria-label="일" class="int" maxlength="2" style="width: 120px;"><br><br>
+		</div>
+		성별<br>
+		<select id="gender" name="gender" class="sel" aria-label="성별" style="width: 350px;">
+			<option value="" selected>성별</option>
+         	<option value="M">남자</option>
+         	<option value="F">여자</option>
+			<option value="U">선택 안함</option>
+		</select><br><br>
+		
+		<button type="submit" class="sign">회원가입</button><br>
+		<button type="reset" class="reset">취소</button>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

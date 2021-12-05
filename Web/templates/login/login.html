@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>login</title>
+<script type="text/javascript"src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$("form").submit(function(){
+		var result = true;//기본 리절트 값.
+	    var str = "";
+		var userid = document.getElementById("userid").value;
+		var passwd = document.getElementById("passwd").value;
+	  
+		if(userid.length == 0){//아이디 미 입력시
+			alert('아이디를 입력하세요');
+			$("#userid").focus();
+			event.preventDefault();
+		}else if (passwd.length==0) {//패스워드 미입력시
+			alert('비밀번호를 입력하세요');
+			$("#passwd").focus();
+			event.preventDefault();
+	  	}
+		if($("#keep").is(":checked")){
+			$("#keep").val(1);
+			//alert("체크박스 체크했음!");
+			//console.log($("#keep").val());
+		}
+		/* else{
+			alert("체크박스 체크해제!");
+		} */
+	});
+/* 	
+	var keep = document.getElementById("passwd");
+	keep.addEventListener('click', function(){
+		if(keepFunc()){
+			console.log('true');
+		}
+		else{
+			console.log('false');
+		}
+	})
+	
+	function keepFunc(){
+		var keep = document.getElementById("keep").checked;
+		return keep;
+	} */
+});
+</script>
+<style>
+	div.login{
+		position: relative;
+		text-align: center;
+		margin-top: 40px;
+		width: 100%;
+		height: 400px;
+	}
+	div.loginform{
+		position: absolute;
+		left: 35%;
+		text-align: left;
+	}
+	span.id span.pw{
+		font-size: 30px;
+	}
+	input{
+		width: 295px;
+		height: 40px;
+		font-size: 20px;
+	}
+	button.login{
+		font-size: 20px;
+		width: 350px;
+		background-color: #add8e6;
+	}
+	button.reset{
+		font-size: 20px;
+		width: 350px;
+	}
+</style>
+</head>
+<body>
+<div class="login">
+	<div class="loginform">
+		<form action="memberlogin" method="post">{% csrf_token %}
+			<span class="id">&#128101;</span>
+			<input type="text" name="userid" id="userid" placeholder="아이디"><span style="color: red;">{{msg}}</span><br><br>
+			<span class="pw">&#128272;</span>
+			<input type="password" name="passwd" id="passwd" placeholder="비밀번호"><br><br>
+			
+			<input type="checkbox" id="keep" name='keep' value="0" style="width: 20px; height: 20px;">
+			<label for="keep" class="keep_text">로그인 상태 유지</label><br><br>
+	
+			<button type="submit" class="login">로그인</button><br>
+			<button type="reset" class="reset">취소</button>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

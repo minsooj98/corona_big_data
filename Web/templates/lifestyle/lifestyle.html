@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript"src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('dl.test dt').click(function() { // 탭메뉴 클릭 이벤트
+		console.log('hi');
+		$('dl.test dd').addClass('hidden');
+		$(this).next().removeClass('hidden');
+	});
+});
+</script>
+<style>
+	div.graphbox{
+/* 		border: 1px solid;
+ */		width: 100%;
+		height: 900px;
+		position: relative;
+	}
+	
+    p {
+        margin: 0 0 10px;
+        line-height: 1.5;}
+
+    div.graph {
+    	position: absolute;
+    	top: 30px;
+    	left: 10%;
+        min-width: 400px;
+        max-width: 900px;
+        width: 100%;
+        padding: 30px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid;
+		border-radius: 20px;
+	}
+
+    section {
+        display: none;
+        padding: 10px 0 0;
+        border-top: 1px solid #ddd;}
+
+    /*라디오버튼 숨김*/
+    input {
+          display: none;}
+
+    label {
+        display: inline-block;
+        margin: 0 0 -1px;
+        padding: 10px 10px;
+        font-weight: 600;
+        text-align: center;
+        color: #bbb;
+        border: 1px solid transparent;}
+
+    label:hover {
+        color: #2e9cdf;
+        cursor: pointer;}
+
+    /*input 클릭시, label 스타일*/
+    input:checked + label {
+          color: #555;
+          border: 1px solid #ddd;
+          border-top: 2px solid #2e9cdf;
+          border-bottom: 1px solid #ffffff;}
+
+    #tab1:checked ~ #content1,
+    #tab2:checked ~ #content2,
+    #tab3:checked ~ #content3,
+    #tab4:checked ~ #content4 {
+        display: block;}
+
+	.section{
+		position: relative;
+		width: 100%;
+		/* border: 1px solid; */
+	}
+	.graphs{
+		width: 100%;
+	}
+	
+</style>
+
+</head>
+<body>
+<div class="graphbox">
+	<div class="graph">
+		<input id="tab1" type="radio" name="tabs" checked> <!--디폴트 메뉴-->
+	    <label for="tab1">개인 소비의 변화</label>
+	
+	    <input id="tab2" type="radio" name="tabs">
+	    <label for="tab2">여가 활동의 변화</label>
+	
+	    <input id="tab3" type="radio" name="tabs">
+	    <label for="tab3">대중교통 이용률의 변화</label>
+	
+		<input id="tab4" type="radio" name="tabs">
+		<label for="tab4">실업률의 변화</label>
+		
+	    <section id="content1" class="section">
+	        <img src="../../static/graphs/spending.png" class="graphs">
+	        <div style="text-align: center;">
+	        	<span style="text-align: center; font-size: 20px;">
+		        	모든 성별과 연령대 2019년과 2020년대의 소비액 동일한 양상<br> 
+		        	2020년부터 연체액이 늘어나는 양상
+		        </span>
+	        </div>
+	    </section>
+	
+	    <section id="content2" class="section">
+	        <img src="../../static/graphs/hobbies.png" class="graphs">
+	        <div style="text-align: center;">
+		        <span style="text-align: center; font-size: 20px;">
+			    	남성, 여성 모두 2019, 2020년 여가 활동 비중의 차이가 있으나 그 정도가 크지 않음<br><br>
+			       	독립표본 t 검정 필요 : 남녀 2019, 2020 연도간 여가 활동에 차이가 있는지 여부<br>
+			        결과 : 정규성, 등분산성을 모두 만족<br>
+			        stats.ttest_ind을 사용한 t 검정 결과 : 남성과 여성 수치 평균에 차이가 없다<br><br>
+			        
+			        <b>결론: 코로나가 유행하고 거리두기가 확대되어도 여가활동의 변화는 다소 미미</b>
+				</span>
+	        </div>
+	    </section>
+	
+	    <section id="content3" class="section">
+	        <img src="../../static/graphs/transportation.png" class="graphs">
+	        <div style="text-align: center;">
+	        	<span style="text-align: center; font-size: 20px;">
+	      	  		2019년도와 비교시 큰 폭으로 줄었음
+	        	</span>
+	        </div>
+	    </section>
+	    
+	    <section id="content4" class="section">
+	        <img src="../../static/graphs/job.png" class="graphs">
+	        <div style="text-align: center;">
+	        	<span style="text-align: center; font-size: 20px; display: inline-block;">
+	        		실업자, 실업률의 추이: 2020년에 증가<br>
+	        		2021 상반기까지 상승세를 유지하다 하반기에 감소
+	        	</span>
+	        </div>
+	    </section>
+    </div>
+</div>
+
+</body>
+</html>
